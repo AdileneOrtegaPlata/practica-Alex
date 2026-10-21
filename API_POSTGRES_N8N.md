@@ -14,8 +14,8 @@ El catálogo público se puede ver en `GET /api/productos`, que devuelve los reg
 
 ## Despliegue en Render
 1. En Render, usa **New → Blueprint** y conecta el repositorio.
-2. Render leerá `render.yaml`, creará una base PostgreSQL y el servicio web.
-3. Cuando termine el deploy, usa la URL `https://<servicio>.onrender.com`; revisa `/health` y `/docs`.
+2. Render leerá `render.yaml`, creará una base PostgreSQL y el servicio `api-productos-adilene`.
+3. Cuando termine el deploy, confirma su URL en Render; será parecida a `https://api-productos-adilene.onrender.com`. Revisa `/health`, `/docs` y `/api/productos`.
 4. Copia el valor de `API_KEY` del Environment del servicio. No lo publiques en el workflow.
 
 ## n8n
