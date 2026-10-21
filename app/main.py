@@ -9,6 +9,23 @@ from pydantic import BaseModel, Field
 
 DATABASE_URL = os.environ["DATABASE_URL"]
 API_KEY = os.environ.get("API_KEY", "")
+PRODUCTS = [
+    ("Laptop", "Computadora portátil para trabajo y estudio."),
+    ("Mouse inalámbrico", "Mouse óptico inalámbrico con receptor USB."),
+    ("Teclado mecánico", "Teclado mecánico USB para computadora."),
+    ("Monitor 24 pulgadas", "Monitor LED Full HD de 24 pulgadas."),
+    ("Audífonos Bluetooth", "Audífonos inalámbricos con micrófono integrado."),
+    ("Webcam HD", "Cámara web HD para videollamadas."),
+    ("Impresora multifuncional", "Impresora con funciones de escaneo y copiado."),
+    ("Disco SSD 1 TB", "Unidad de almacenamiento SSD de 1 TB."),
+    ("Memoria USB 64 GB", "Memoria USB portátil de 64 GB."),
+    ("Router Wi-Fi", "Router inalámbrico de doble banda."),
+    ("Cable HDMI 2 m", "Cable HDMI de dos metros para video y audio."),
+    ("Hub USB-C", "Adaptador USB-C con puertos USB adicionales."),
+    ("Base para laptop", "Soporte ajustable para computadora portátil."),
+    ("Bocina portátil", "Bocina Bluetooth portátil recargable."),
+    ("Cargador USB-C", "Cargador USB-C para dispositivos compatibles."),
+]
 
 
 def get_conn():
@@ -27,6 +44,23 @@ async def lifespan(_: FastAPI):
                 updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
             )
         """)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS app_metadata (
+                key TEXT PRIMARY KEY,
+                value TEXT NOT NULL
+            )
+        """)
+        seeded = conn.execute(
+            "INSERT INTO app_metadata (key, value) VALUES ('demo_products_seeded', 'true') "
+            "ON CONFLICT (key) DO NOTHING RETURNING key"
+        ).fetchone()
+        if seeded:
+            for name, description in PRODUCTS:
+                conn.execute(
+                    "INSERT INTO items (name, description) "
+                    "SELECT %s, %s WHERE NOT EXISTS (SELECT 1 FROM items WHERE name = %s)",
+                    (name, description, name),
+                )
     yield
 
 
