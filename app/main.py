@@ -56,6 +56,27 @@ def health():
         raise HTTPException(status_code=503, detail="Database unavailable") from exc
 
 
+@app.get("/api/productos")
+def list_products(limit: int = Query(default=100, ge=1, le=500)):
+    """Public read-only JSON endpoint for viewing the product catalog in a browser."""
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT id, name, description, created_at FROM items ORDER BY id ASC LIMIT %s",
+            (limit,),
+        ).fetchall()
+    return {
+        "data": [
+            {
+                "id": str(row["id"]),
+                "nombre": row["name"],
+                "descripcion": row["description"],
+                "created_at": row["created_at"],
+            }
+            for row in rows
+        ]
+    }
+
+
 @app.post("/items", status_code=201)
 def create_item(item: ItemInput, _: Auth):
     with get_conn() as conn:
