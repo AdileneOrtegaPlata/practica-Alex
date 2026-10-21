@@ -10,10 +10,10 @@ API CRUD de ejemplo construida con FastAPI y PostgreSQL.
 - `PUT /items/{id}`: reemplazar nombre y descripción.
 - `DELETE /items/{id}`: eliminar registro.
 
-Todos salvo `/health` requieren el header `X-API-Key`.
+El catálogo público se puede ver en `GET /api/productos`, que devuelve los registros bajo `data` como JSON. Las rutas CRUD de `/items` requieren el header `X-API-Key`.
 
 ## Despliegue en Render
-1. En Render, usa **New → Blueprint** y conecta este repositorio.
+1. En Render, usa **New → Blueprint** y conecta el repositorio.
 2. Render leerá `render.yaml`, creará una base PostgreSQL y el servicio web.
 3. Cuando termine el deploy, usa la URL `https://<servicio>.onrender.com`; revisa `/health` y `/docs`.
 4. Copia el valor de `API_KEY` del Environment del servicio. No lo publiques en el workflow.
