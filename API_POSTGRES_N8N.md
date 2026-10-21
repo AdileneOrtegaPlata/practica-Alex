@@ -1,6 +1,6 @@
 # API PostgreSQL + n8n
 
-API CRUD de ejemplo construida con FastAPI y PostgreSQL.
+API CRUD de ejemplo construida con FastAPI y PostgreSQL. Al iniciar por primera vez, la API agrega los 15 productos de ejemplo a una base vacía, incluida la base nueva de Render.
 
 ## Endpoints
 - `GET /health`: estado de API y base.
@@ -14,7 +14,7 @@ El catálogo público se puede ver en `GET /api/productos`, que devuelve los reg
 
 ## Despliegue en Render
 1. En Render, usa **New → Blueprint** y conecta el repositorio.
-2. Render leerá `render.yaml`, creará una base PostgreSQL y el servicio `api-productos-adilene`.
+2. Render leerá `render.yaml`, creará una base PostgreSQL y el servicio `api-productos-adilene`; al iniciar, se cargará el catálogo de ejemplo si la base está vacía.
 3. Cuando termine el deploy, confirma su URL en Render; será parecida a `https://api-productos-adilene.onrender.com`. Revisa `/health`, `/docs` y `/api/productos`.
 4. Copia el valor de `API_KEY` del Environment del servicio. No lo publiques en el workflow.
 
