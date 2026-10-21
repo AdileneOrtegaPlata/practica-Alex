@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: itemsdb
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-dev-password}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d itemsdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://app:${POSTGRES_PASSWORD:-local-dev-password}@db:5432/itemsdb
+      API_KEY: ${API_KEY:-local-change-me}
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  pgdata:
