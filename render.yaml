@@ -17,3 +17,5 @@ services:
           property: connectionString
       - key: API_KEY
         generateValue: true
+      - key: PORT
+        value: "10000"
