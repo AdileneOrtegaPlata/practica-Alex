@@ -19,6 +19,7 @@ services:
     environment:
       DATABASE_URL: postgresql://app:${POSTGRES_PASSWORD:-local-dev-password}@db:5432/itemsdb
       API_KEY: ${API_KEY:-local-change-me}
+      PORT: 8000
     depends_on:
       db:
         condition: service_healthy
