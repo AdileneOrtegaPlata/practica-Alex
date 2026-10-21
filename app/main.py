@@ -77,6 +77,26 @@ def list_products(limit: int = Query(default=100, ge=1, le=500)):
     }
 
 
+@app.get("/api/productos/{product_id}")
+def get_public_product(product_id: int):
+    """Return one product in the same JSON envelope as the catalog endpoint."""
+    with get_conn() as conn:
+        row = conn.execute(
+            "SELECT id, name, description, created_at FROM items WHERE id = %s",
+            (product_id,),
+        ).fetchone()
+    if row is None:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return {
+        "data": {
+            "id": str(row["id"]),
+            "nombre": row["name"],
+            "descripcion": row["description"],
+            "created_at": row["created_at"],
+        }
+    }
+
+
 @app.post("/items", status_code=201)
 def create_item(item: ItemInput, _: Auth):
     with get_conn() as conn:
