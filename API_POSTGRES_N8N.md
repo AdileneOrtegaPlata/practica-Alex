@@ -10,7 +10,7 @@ API CRUD de ejemplo construida con FastAPI y PostgreSQL.
 - `PUT /items/{id}`: reemplazar nombre y descripción.
 - `DELETE /items/{id}`: eliminar registro.
 
-El catálogo público se puede ver en `GET /api/productos`, que devuelve los registros bajo `data` como JSON. Las rutas CRUD de `/items` requieren el header `X-API-Key`.
+El catálogo público se puede ver en `GET /api/productos`, que devuelve los registros bajo `data` como JSON. Para consultar un registro por ID, usa `GET /api/productos/1`. Las rutas CRUD de `/items` requieren el header `X-API-Key`.
 
 ## Despliegue en Render
 1. En Render, usa **New → Blueprint** y conecta el repositorio.
