@@ -1,19 +1,19 @@
 databases:
-  - name: items-db
-    databaseName: itemsdb
+  - name: api-productos-adilene-db
+    databaseName: productosdb
     user: app
     plan: free
 
 services:
   - type: web
-    name: items-api
+    name: api-productos-adilene
     runtime: docker
     plan: free
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: items-db
+          name: api-productos-adilene-db
           property: connectionString
       - key: API_KEY
         generateValue: true
